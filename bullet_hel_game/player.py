@@ -22,10 +22,10 @@ class Player:
 
     def move(self, keys: pygame.key.ScancodeWrapper):
         # move left
-        if keys[pygame.K_a] or keys[pygame.K_RIGHT]:
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.posX -= self.velX
         # move right
-        elif keys[pygame.K_d] or keys[pygame.K_LEFT]:
+        elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.posX += self.velX
 
         # move up
