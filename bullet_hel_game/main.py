@@ -3,13 +3,13 @@ from player import Player
 
 pygame.init()
 
-SWIDTH = 800
-SHEIGHT = 600
+S_WIDTH = 800
+S_HEIGHT = 600
 TITLE = 'Bullet Hell'
 
 if __name__ == '__main__':
-    screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
-    pygame.display.set_caption(f'{TITLE: ^{SWIDTH/3.5}}')
+    screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
+    pygame.display.set_caption(f'{TITLE: ^{S_WIDTH/3.5}}')
     clock = pygame.time.Clock()
     player = Player(400, 300)
 

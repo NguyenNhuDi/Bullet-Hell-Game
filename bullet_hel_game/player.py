@@ -2,9 +2,12 @@ import pygame.draw
 
 
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, s_width=800, s_height=600):
         self.posX = x
         self.posY = y
+
+        self.sWidth = s_width
+        self.sHeight = s_height
 
         self.velX = 5
         self.velY = 5
