@@ -1,0 +1,3 @@
+BASIC = 1
+SPLIT = 2
+HONING = 3

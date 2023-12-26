@@ -1,5 +1,6 @@
 import pygame
 from player import Player
+from bullet import Bullet
 
 pygame.init()
 
@@ -9,9 +10,11 @@ TITLE = 'Bullet Hell'
 
 if __name__ == '__main__':
     screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
-    pygame.display.set_caption(f'{TITLE: ^{S_WIDTH/3.5}}')
+    pygame.display.set_caption(f'{TITLE: ^{S_WIDTH / 3.5}}')
     clock = pygame.time.Clock()
     player = Player(400, 300)
+
+    bullets = []
 
     while True:
         keys = pygame.key.get_pressed()
@@ -22,11 +25,42 @@ if __name__ == '__main__':
                 raise SystemExit
 
         # ...
+
+        m_x, m_y = pygame.mouse.get_pos()
+
+        # TODO implement timer
+        new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
+        bullets.append(new_bullet)
+
         player.move(keys)
+
+        for bullet in bullets:
+            bullet.move()
+
+        # ===================================================================================== #
+
+        bullets_to_remove = []
+        for i, bullet in enumerate(bullets):
+            if bullet.posX < 0 or bullet.posX > S_WIDTH:
+                bullets_to_remove.append(i)
+
+            if bullet.posY < 0 or bullet.posY > S_HEIGHT:
+                bullets_to_remove.append(i)
+
+        for i in bullets_to_remove:
+            try:
+                bullets.pop(i)
+            except IndexError:
+                continue
+        # ===================================================================================== #
 
         screen.fill((0, 0, 0))  # Fill the display with a solid color
 
+        for bullet in bullets:
+            bullet.draw(screen)
+
         player.draw(screen)
+
         # Render the graphics here.
 
         pygame.display.flip()  # Refresh on-screen display
