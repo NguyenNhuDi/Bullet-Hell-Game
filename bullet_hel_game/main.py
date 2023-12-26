@@ -1,4 +1,5 @@
 import pygame
+from player import Player
 
 pygame.init()
 
@@ -8,8 +9,9 @@ TITLE = 'Bullet Hell'
 
 if __name__ == '__main__':
     screen = pygame.display.set_mode((SWIDTH, SHEIGHT))
-    pygame.display.set_caption(f'{TITLE: ^100}')
+    pygame.display.set_caption(f'{TITLE: ^{SWIDTH/3.5}}')
     clock = pygame.time.Clock()
+    player = Player(400, 300)
 
     while True:
         keys = pygame.key.get_pressed()
@@ -19,15 +21,13 @@ if __name__ == '__main__':
                 pygame.quit()
                 raise SystemExit
 
-
-
-        # Do logical updates here.
         # ...
+        player.move(keys)
 
-        screen.fill("purple")  # Fill the display with a solid color
+        screen.fill((0, 0, 0))  # Fill the display with a solid color
 
+        player.draw(screen)
         # Render the graphics here.
-        # ...
 
         pygame.display.flip()  # Refresh on-screen display
         clock.tick(60)  # wait until next frame (at 60 FPS)
