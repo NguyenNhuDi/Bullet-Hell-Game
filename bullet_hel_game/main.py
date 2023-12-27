@@ -42,11 +42,10 @@ if __name__ == '__main__':
         if cTime - e_sTime >= e_cD:
             e_sTime = pygame.time.get_ticks()
 
-            if len(enemies) <= 2:
-                tX = random.randint(1, S_WIDTH - 1)
-                tY = random.randint(1, S_HEIGHT - 1)
-                new_enemy = Enemy(tX, tY)
-                enemies.append(new_enemy)
+            tX = random.randint(1, S_WIDTH - 1)
+            tY = random.randint(1, S_HEIGHT - 1)
+            new_enemy = Enemy(tX, tY)
+            enemies.append(new_enemy)
 
         for bullet in bullets:
             bullet.move()
