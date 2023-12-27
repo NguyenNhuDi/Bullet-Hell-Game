@@ -1,11 +1,12 @@
 import pygame
 from player import Player
 from bullet import Bullet
+from enemy import Enemy
+from constants import S_WIDTH, S_HEIGHT
+import random
 
 pygame.init()
 
-S_WIDTH = 800
-S_HEIGHT = 600
 TITLE = 'Bullet Hell'
 
 if __name__ == '__main__':
@@ -15,6 +16,7 @@ if __name__ == '__main__':
     player = Player(400, 300)
 
     bullets = []
+    enemies = []
 
     while True:
         keys = pygame.key.get_pressed()
@@ -30,10 +32,19 @@ if __name__ == '__main__':
         new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
         bullets.append(new_bullet)
 
+        # TODO implement timer
+        tX = random.randint(1, S_WIDTH - 1)
+        tY = random.randint(1, S_HEIGHT - 1)
+        new_enemy = Enemy(tX, tY)
+        enemies.append(new_enemy)
+
         player.move(keys)
 
         for bullet in bullets:
             bullet.move()
+
+        for enemy in enemies:
+            enemy.move(player.posX, player.posY)
 
         # ===================================================================================== #
 
@@ -58,6 +69,9 @@ if __name__ == '__main__':
             bullet.draw(screen)
 
         player.draw(screen)
+
+        for enemy in enemies:
+            enemy.draw(screen)
 
         # Render the graphics here.
 

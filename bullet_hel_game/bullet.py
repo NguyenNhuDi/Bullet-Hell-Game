@@ -1,7 +1,8 @@
-from constants import BASIC, SPLIT, HONING
+from constants import BASIC, SPLIT, HONING, B_VEL, B_RADIUS
 import math
 import pygame
 from entity import Entity
+
 
 class Bullet(Entity):
     def __init__(self, x: int, y: int, m_x: int, m_y: int, s_width: int = 800, s_height=600, b_type=BASIC):
@@ -9,7 +10,7 @@ class Bullet(Entity):
         self.b_type = b_type
 
         # angle and speed calculations
-        vel = 10
+        vel = B_VEL
 
         n_x = m_x - x
         n_y = m_y - y
@@ -20,7 +21,7 @@ class Bullet(Entity):
         self.velY = vel * math.sin(angle)
 
         self.color = (50, 168, 82)  # lime green ish
-        self.radius = 1
+        self.radius = B_RADIUS
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (int(self.posX), int(self.posY)), self.radius)

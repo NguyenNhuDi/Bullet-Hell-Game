@@ -1,16 +1,17 @@
 import pygame.draw
 from entity import Entity
+from constants import P_VEL, P_SIZE
 
 
 class Player(Entity):
     def __init__(self, x: int, y: int, s_width: int = 800, s_height: int = 600):
         super().__init__(x, y, s_width, s_height)
 
-        self.velX = 5
-        self.velY = 5
+        self.velX = P_VEL
+        self.velY = P_VEL
 
         self.color = (128, 29, 106)  # Purple Pink ish
-        self.size = 10
+        self.size = P_SIZE
 
         self.keys = pygame.key.get_pressed()
 
