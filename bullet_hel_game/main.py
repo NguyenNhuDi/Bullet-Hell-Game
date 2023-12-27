@@ -2,12 +2,11 @@ import pygame
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
-from constants import S_WIDTH, S_HEIGHT
+from constants import S_WIDTH, S_HEIGHT, TITLE
 import random
 
 pygame.init()
 
-TITLE = 'Bullet Hell'
 
 if __name__ == '__main__':
     screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))

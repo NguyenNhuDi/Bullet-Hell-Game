@@ -1,6 +1,7 @@
 # Screen Setting
 S_WIDTH = 800
 S_HEIGHT = 600
+TITLE = 'Bullet Hell'
 
 # Bullet Type
 
