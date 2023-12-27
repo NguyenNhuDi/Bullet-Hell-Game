@@ -1,20 +1,15 @@
 from constants import BASIC, SPLIT, HONING
 import math
 import pygame
+from entity import Entity
 
-
-class Bullet:
-    def __init__(self, x: float, y: float, m_x: float, m_y: float, s_width: int = 800, s_height=600, b_type=BASIC):
-        self.posX = x
-        self.posY = y
-
-        self.s_width = s_width
-        self.s_height = s_height
-
+class Bullet(Entity):
+    def __init__(self, x: int, y: int, m_x: int, m_y: int, s_width: int = 800, s_height=600, b_type=BASIC):
+        super().__init__(x, y, s_width, s_height)
         self.b_type = b_type
 
         # angle and speed calculations
-        vel = 2
+        vel = 10
 
         n_x = m_x - x
         n_y = m_y - y

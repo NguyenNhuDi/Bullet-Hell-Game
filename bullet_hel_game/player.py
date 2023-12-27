@@ -1,13 +1,10 @@
 import pygame.draw
+from entity import Entity
 
 
-class Player:
-    def __init__(self, x: float, y: float, s_width: int = 800, s_height: int = 600):
-        self.posX = x
-        self.posY = y
-
-        self.sWidth = s_width
-        self.sHeight = s_height
+class Player(Entity):
+    def __init__(self, x: int, y: int, s_width: int = 800, s_height: int = 600):
+        super().__init__(x, y, s_width, s_height)
 
         self.velX = 5
         self.velY = 5

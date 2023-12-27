@@ -24,8 +24,6 @@ if __name__ == '__main__':
                 pygame.quit()
                 raise SystemExit
 
-        # ...
-
         m_x, m_y = pygame.mouse.get_pos()
 
         # TODO implement timer
