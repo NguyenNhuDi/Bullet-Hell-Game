@@ -21,6 +21,11 @@ P_SIZE = 10
 E_SIZE = 10
 B_RADIUS = 1
 
+# Enemy Settings
+SPEED_FACTOR = 0.1  # multiplicative
+SIZE_FACTOR = 0.1  # multiplicative
+COLOR_FACTOR = 10  # additive (makes enemy more red)
+
 # Time Setting
 B_INIT_COOLDOWN = 1000  # 1 second
-E_INIT_COOLDOWN = 5000  # 5 second
+E_INIT_COOLDOWN = 500  # 5 second
