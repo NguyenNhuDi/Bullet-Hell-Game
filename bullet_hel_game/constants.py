@@ -20,3 +20,7 @@ B_VEL = 10
 P_SIZE = 10
 E_SIZE = 10
 B_RADIUS = 1
+
+# Time Setting
+B_INIT_COOLDOWN = 1000  # 1 second
+E_INIT_COOLDOWN = 5000  # 5 second

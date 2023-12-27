@@ -2,11 +2,10 @@ import pygame
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
-from constants import S_WIDTH, S_HEIGHT, TITLE
+from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN
 import random
 
 pygame.init()
-
 
 if __name__ == '__main__':
     screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
@@ -17,6 +16,10 @@ if __name__ == '__main__':
     bullets = []
     enemies = []
 
+    b_sTime = pygame.time.get_ticks()
+    e_sTime = b_sTime
+    b_cD = B_INIT_COOLDOWN
+    e_cD = E_INIT_COOLDOWN
     while True:
         keys = pygame.key.get_pressed()
         # Process player inputs.
@@ -25,19 +28,23 @@ if __name__ == '__main__':
                 pygame.quit()
                 raise SystemExit
 
-        m_x, m_y = pygame.mouse.get_pos()
-
-        # TODO implement timer
-        new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
-        bullets.append(new_bullet)
-
-        # TODO implement timer
-        tX = random.randint(1, S_WIDTH - 1)
-        tY = random.randint(1, S_HEIGHT - 1)
-        new_enemy = Enemy(tX, tY)
-        enemies.append(new_enemy)
+        cTime = pygame.time.get_ticks()
 
         player.move(keys)
+
+        m_x, m_y = pygame.mouse.get_pos()
+
+        if cTime - b_sTime >= b_cD:
+            b_sTime = pygame.time.get_ticks()
+            new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
+            bullets.append(new_bullet)
+
+        if cTime - e_sTime >= e_cD:
+            e_sTime = pygame.time.get_ticks()
+            tX = random.randint(1, S_WIDTH - 1)
+            tY = random.randint(1, S_HEIGHT - 1)
+            new_enemy = Enemy(tX, tY)
+            enemies.append(new_enemy)
 
         for bullet in bullets:
             bullet.move()
