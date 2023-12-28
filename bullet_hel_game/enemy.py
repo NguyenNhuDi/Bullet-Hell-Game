@@ -1,12 +1,12 @@
 from entity import Entity
-from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR
+from constants import E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR
 import pygame
 import math
 
 
 class Enemy(Entity):
-    def __init__(self, x: int, y: int, s_width: int = 800, s_height: int = 600):
-        super().__init__(x, y, s_width, s_height)
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y)
 
         self.vel = E_VEL
 

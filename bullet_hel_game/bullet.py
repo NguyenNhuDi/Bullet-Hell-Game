@@ -5,8 +5,8 @@ from entity import Entity
 
 
 class Bullet(Entity):
-    def __init__(self, x: int, y: int, m_x: int, m_y: int, s_width: int = 800, s_height=600, b_type=BASIC):
-        super().__init__(x, y, s_width, s_height)
+    def __init__(self, x: int, y: int, m_x: int, m_y: int, b_type=BASIC):
+        super().__init__(x, y)
         self.b_type = b_type
 
         # angle and speed calculations
