@@ -1,5 +1,5 @@
 from entity import Entity
-from constants import E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR
+from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR
 import pygame
 import math
 
@@ -13,18 +13,18 @@ class Enemy(Entity):
         self.color = [100, 100, 100]  # Red ish
         self.size = E_SIZE
 
+        # Visual things
+        self.image = pygame.Surface((self.size, self.size))  # TODO update to image
+        self.image.fill(color=tuple(self.color))
+
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def draw(self, screen: pygame.surface.Surface):
         self.image = pygame.Surface((self.size, self.size))
         self.image.fill(color=tuple(self.color))
 
-        self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
-        # print(mask_offset(self.mask, self.mask))
-
-    def draw(self, screen):
-        self.image = pygame.Surface((self.size, self.size))
-        self.image.fill(color=tuple(self.color))
-        self.mask = pygame.mask.from_surface(self.image)
         screen.blit(self.image, (self.posX, self.posY))
 
     def move(self, pX: int, pY: int, enemies):
@@ -36,6 +36,7 @@ class Enemy(Entity):
         vel_x = self.vel * math.cos(angle)
         vel_y = self.vel * math.sin(angle)
 
+        # TODO fix merging later on
         for i, enemy in enumerate(enemies):
             if enemy is self:
                 continue

@@ -19,7 +19,7 @@ B_VEL = 10
 
 P_SIZE = 10
 E_SIZE = 10
-B_RADIUS = 1
+B_SIZE = 1
 
 # Enemy Settings
 

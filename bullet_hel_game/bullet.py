@@ -1,4 +1,4 @@
-from constants import BASIC, SPLIT, HONING, B_VEL, B_RADIUS
+from constants import BASIC, SPLIT, HONING, B_VEL, B_SIZE
 import math
 import pygame
 from entity import Entity
@@ -21,10 +21,16 @@ class Bullet(Entity):
         self.velY = vel * math.sin(angle)
 
         self.color = (50, 168, 82)  # lime green ish
-        self.radius = B_RADIUS
+        self.size = B_SIZE
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.color, (int(self.posX), int(self.posY)), self.radius)
+        # Visual things
+        self.image = pygame.Surface((self.size, self.size))  # TODO update to image
+        self.image.fill(color=self.color)
+
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def draw(self, screen: pygame.surface.Surface):
+        screen.blit(self.image, (self.posX, self.posY))
 
     def move(self):
         self.posX += self.velX

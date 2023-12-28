@@ -15,8 +15,14 @@ class Player(Entity):
 
         self.keys = pygame.key.get_pressed()
 
+        # Visual things
+        self.image = pygame.Surface((self.size, self.size))  # TODO update to image
+        self.image.fill(color=self.color)
+
+        self.mask = pygame.mask.from_surface(self.image)
+
     def draw(self, screen: pygame.surface.Surface):
-        pygame.draw.rect(screen, self.color, (self.posX, self.posY, self.size, self.size))
+        screen.blit(self.image, (self.posX, self.posY))
 
     def move(self, keys: pygame.key.ScancodeWrapper):
         # move left
