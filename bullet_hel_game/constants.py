@@ -29,7 +29,7 @@ SPEED_FACTOR = 0.1  # multiplicative
 SIZE_FACTOR = 0.1  # multiplicative
 COLOR_FACTOR = 10  # additive (makes enemy more red)
 SPAWN_DISTANCE = 20  # how many pixels away from player are enemies allowed to spawn
-SPAWN_CAP = 1  # how many enemy can exist on the map
+SPAWN_CAP = 10  # how many enemy can exist on the map
 E_HEALTH = 5  # initial enemy health
 
 # Time Setting

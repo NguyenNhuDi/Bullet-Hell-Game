@@ -26,15 +26,14 @@ class Player(Entity):
 
     def move(self, keys: pygame.key.ScancodeWrapper):
         # move left
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.posX >= self.size:
             self.posX -= self.velX
         # move right
-        elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        elif (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.posX <= self.sWidth - self.size * 2:
             self.posX += self.velX
-
         # move up
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.posY >= self.size:
             self.posY -= self.velY
         # move down
-        elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
+        elif (keys[pygame.K_s] or keys[pygame.K_DOWN]) and self.posY <= self.sHeight - self.size * 2:
             self.posY += self.velY
