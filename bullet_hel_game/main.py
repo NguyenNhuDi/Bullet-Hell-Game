@@ -1,8 +1,8 @@
 import pygame
 from player import Player
 from bullet import Bullet
-from utils import spawn_constant_enemy
-from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN
+from utils import spawn_constant_enemy, bullet_collision
+from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP
 
 pygame.init()
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
             new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
             bullets.append(new_bullet)
 
-        if len(enemies) <= 3:
+        if len(enemies) < SPAWN_CAP:
             e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
 
         for bullet in bullets:
@@ -48,6 +48,8 @@ if __name__ == '__main__':
             enemy.move(player.posX, player.posY, enemies)
 
         # ===================================================================================== #
+
+        enemies, bullets = bullet_collision(enemies, bullets)
 
         bullets_to_remove = []
         for i, bullet in enumerate(bullets):

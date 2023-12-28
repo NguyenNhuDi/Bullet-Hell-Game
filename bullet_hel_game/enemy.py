@@ -1,5 +1,5 @@
 from entity import Entity
-from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR
+from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR, E_HEALTH
 import pygame
 import math
 
@@ -12,6 +12,8 @@ class Enemy(Entity):
 
         self.color = [100, 100, 100]  # Red ish
         self.size = E_SIZE
+
+        self.hp = E_HEALTH
 
         # Visual things
         self.image = pygame.Surface((self.size, self.size))  # TODO update to image
@@ -56,6 +58,7 @@ class Enemy(Entity):
                     self.size += new_size
                     self.color[0] = enemy.color[0] if enemy.color[0] > self.color[0] else self.color[0]
                     self.color[0] += COLOR_FACTOR
+                    self.hp += enemy.hp
 
                     if self.color[0] >= 255:
                         self.color[0] = 100

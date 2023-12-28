@@ -17,17 +17,19 @@ B_VEL = 10
 
 # Entity Size
 
-P_SIZE = 10
-E_SIZE = 10
-B_SIZE = 1
+P_SIZE = 15
+E_SIZE = 15
+B_SIZE = 5
 
 # Enemy Settings
 
 SPEED_FACTOR = 0.1  # multiplicative
 SIZE_FACTOR = 0.1  # multiplicative
 COLOR_FACTOR = 10  # additive (makes enemy more red)
-SPAWN_DISTANCE = 10  # how many pixels away from player are enemies allowed to spawn
+SPAWN_DISTANCE = 20  # how many pixels away from player are enemies allowed to spawn
+SPAWN_CAP = 1  # how many enemy can exist on the map
+E_HEALTH = 5  # initial enemy health
 
 # Time Setting
-B_INIT_COOLDOWN = 1000  # 1 second
+B_INIT_COOLDOWN = 500  # 1 second
 E_INIT_COOLDOWN = 500  # 5 second
