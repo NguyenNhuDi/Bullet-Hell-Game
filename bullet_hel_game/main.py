@@ -1,9 +1,8 @@
 import pygame
 from player import Player
 from bullet import Bullet
-from enemy import Enemy
+from utils import spawn_constant_enemy
 from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN
-import random
 
 pygame.init()
 
@@ -39,13 +38,8 @@ if __name__ == '__main__':
             new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
             bullets.append(new_bullet)
 
-        if cTime - e_sTime >= e_cD:
-            e_sTime = pygame.time.get_ticks()
-
-            tX = random.randint(1, S_WIDTH - 1)
-            tY = random.randint(1, S_HEIGHT - 1)
-            new_enemy = Enemy(tX, tY)
-            enemies.append(new_enemy)
+        if len(enemies) <= 3:
+            e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
 
         for bullet in bullets:
             bullet.move()

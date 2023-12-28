@@ -22,9 +22,11 @@ E_SIZE = 10
 B_RADIUS = 1
 
 # Enemy Settings
+
 SPEED_FACTOR = 0.1  # multiplicative
 SIZE_FACTOR = 0.1  # multiplicative
 COLOR_FACTOR = 10  # additive (makes enemy more red)
+SPAWN_DISTANCE = 10  # how many pixels away from player are enemies allowed to spawn
 
 # Time Setting
 B_INIT_COOLDOWN = 1000  # 1 second
