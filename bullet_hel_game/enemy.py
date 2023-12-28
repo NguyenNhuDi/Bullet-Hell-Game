@@ -5,7 +5,7 @@ import math
 
 
 class Enemy(Entity):
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
         self.vel = E_VEL
@@ -21,7 +21,7 @@ class Enemy(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
-    def draw(self, screen: pygame.surface.Surface):
+    def draw(self, screen: pygame.surface.Surface) -> None:
         self.image = pygame.Surface((self.size, self.size))
         self.image.fill(color=tuple(self.color))
 
@@ -29,7 +29,7 @@ class Enemy(Entity):
 
         screen.blit(self.image, (self.posX, self.posY))
 
-    def move(self, pX: int, pY: int, enemies):
+    def move(self, pX: int, pY: int, enemies) -> None:
         n_x = pX - self.posX
         n_y = pY - self.posY
 

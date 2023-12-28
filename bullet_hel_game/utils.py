@@ -3,6 +3,7 @@ import random
 from enemy import Enemy
 from player import Player
 from bullet import Bullet
+from gem import Gem
 from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE
 import pygame
 
@@ -28,8 +29,14 @@ def spawn_constant_enemy(enemies: List[Enemy], e_sTime: int, c_time: int, e_cD: 
     return e_sTime
 
 
+# spawn a gem
+def spawn_gem(gems: List[Gem], x, y) -> None:
+    new_gem = Gem(x, y)
+    gems.append(new_gem)
+
+
 # If the bullet has hit the enemy
-def normal_bullet_collision(enemies: List, bullets: List) -> Tuple[List[Enemy], List[Bullet]]:
+def normal_bullet_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
     for i, bullet in enumerate(bullets):
 
         if bullet == -1:
@@ -48,6 +55,7 @@ def normal_bullet_collision(enemies: List, bullets: List) -> Tuple[List[Enemy], 
 
                 enemy.hp -= 1
                 if enemy.hp <= 0:
+                    spawn_gem(gems, enemy.posX, enemy.posY)
                     enemies[j] = -1
 
     out_enemies = []

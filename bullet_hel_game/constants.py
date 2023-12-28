@@ -2,7 +2,7 @@
 S_WIDTH = 800
 S_HEIGHT = 600
 TITLE = 'Bullet Hell'
-BACKGROUND_COLOR = (0, 0, 0)
+BACKGROUND_COLOR = (180, 196, 222)
 FONT_COLOR = (52, 58, 235)
 
 # Bullet Type
@@ -22,6 +22,7 @@ B_VEL = 10
 P_SIZE = 15
 E_SIZE = 15
 B_SIZE = 5
+G_SIZE = 10
 
 # Enemy Settings
 
@@ -29,7 +30,7 @@ SPEED_FACTOR = 0.1  # multiplicative
 SIZE_FACTOR = 0.1  # multiplicative
 COLOR_FACTOR = 10  # additive (makes enemy more red)
 SPAWN_DISTANCE = 20  # how many pixels away from player are enemies allowed to spawn
-SPAWN_CAP = 10  # how many enemy can exist on the map
+SPAWN_CAP = 1  # how many enemy can exist on the map
 E_HEALTH = 5  # initial enemy health
 
 # Time Setting

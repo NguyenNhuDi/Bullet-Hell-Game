@@ -19,6 +19,7 @@ if __name__ == '__main__':
 
     bullets = []
     enemies = []
+    gems = []
 
     b_sTime = pygame.time.get_ticks()
     e_sTime = b_sTime
@@ -61,7 +62,7 @@ if __name__ == '__main__':
 
         # ===================================================================================== #
 
-            enemies, bullets = normal_bullet_collision(enemies, bullets)
+            enemies, bullets = normal_bullet_collision(enemies, bullets, gems)
 
         bullets_to_remove = []
         for i, bullet in enumerate(bullets):
@@ -82,6 +83,9 @@ if __name__ == '__main__':
 
         for bullet in bullets:
             bullet.draw(screen)
+
+        for gem in gems:
+            gem.draw(screen)
 
         player.draw(screen)
 

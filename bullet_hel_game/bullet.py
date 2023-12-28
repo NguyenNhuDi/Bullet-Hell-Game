@@ -5,7 +5,7 @@ from entity import Entity
 
 
 class Bullet(Entity):
-    def __init__(self, x: int, y: int, m_x: int, m_y: int, b_type=BASIC):
+    def __init__(self, x: int, y: int, m_x: int, m_y: int, b_type=BASIC) -> None:
         super().__init__(x, y)
         self.b_type = b_type
 
@@ -20,7 +20,7 @@ class Bullet(Entity):
         self.velX = vel * math.cos(angle)
         self.velY = vel * math.sin(angle)
 
-        self.color = (50, 168, 82)  # lime green ish
+        self.color = (0, 0, 0)  # black
         self.size = B_SIZE
 
         # Visual things
@@ -29,9 +29,9 @@ class Bullet(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
-    def draw(self, screen: pygame.surface.Surface):
+    def draw(self, screen: pygame.surface.Surface) -> None:
         screen.blit(self.image, (self.posX, self.posY))
 
-    def move(self):
+    def move(self) -> None:
         self.posX += self.velX
         self.posY += self.velY

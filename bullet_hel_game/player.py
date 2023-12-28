@@ -4,7 +4,7 @@ from constants import P_VEL, P_SIZE
 
 
 class Player(Entity):
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
 
         self.velX = P_VEL
@@ -21,10 +21,10 @@ class Player(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
-    def draw(self, screen: pygame.surface.Surface):
+    def draw(self, screen: pygame.surface.Surface) -> None:
         screen.blit(self.image, (self.posX, self.posY))
 
-    def move(self, keys: pygame.key.ScancodeWrapper):
+    def move(self, keys: pygame.key.ScancodeWrapper) -> None:
         # move left
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.posX >= self.size:
             self.posX -= self.velX
