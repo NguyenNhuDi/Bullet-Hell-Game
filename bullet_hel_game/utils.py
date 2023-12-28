@@ -29,7 +29,7 @@ def spawn_constant_enemy(enemies: List[Enemy], e_sTime: int, c_time: int, e_cD: 
 
 
 # If the bullet has hit the enemy
-def bullet_collision(enemies: List, bullets: List) -> Tuple[List[Enemy], List[Bullet]]:
+def normal_bullet_collision(enemies: List, bullets: List) -> Tuple[List[Enemy], List[Bullet]]:
     for i, bullet in enumerate(bullets):
 
         if bullet == -1:

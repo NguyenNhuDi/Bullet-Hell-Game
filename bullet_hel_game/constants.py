@@ -2,6 +2,8 @@
 S_WIDTH = 800
 S_HEIGHT = 600
 TITLE = 'Bullet Hell'
+BACKGROUND_COLOR = (0, 0, 0)
+FONT_COLOR = (52, 58, 235)
 
 # Bullet Type
 

@@ -1,8 +1,9 @@
+import time
 import pygame
 from player import Player
 from bullet import Bullet
-from utils import spawn_constant_enemy, bullet_collision
-from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP
+from utils import spawn_constant_enemy, normal_bullet_collision
+from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, FONT_COLOR
 
 pygame.init()
 
@@ -10,7 +11,11 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
     pygame.display.set_caption(f'{TITLE: ^{S_WIDTH / 3.5}}')
     clock = pygame.time.Clock()
+    font = pygame.font.Font('Black Hulk.otf', 64)
+
     player = Player(400, 300)
+
+    pause_game = False
 
     bullets = []
     enemies = []
@@ -19,37 +24,44 @@ if __name__ == '__main__':
     e_sTime = b_sTime
     b_cD = B_INIT_COOLDOWN
     e_cD = E_INIT_COOLDOWN
+
     while True:
-        keys = pygame.key.get_pressed()
+        keys_pressed = pygame.key.get_pressed()
+
+        if keys_pressed[pygame.K_p]:
+            pause_game = not pause_game
+            time.sleep(0.1)
         # Process player inputs.
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
+            if event.type == pygame.QUIT or keys_pressed[pygame.K_ESCAPE]:
                 pygame.quit()
                 raise SystemExit
 
-        cTime = pygame.time.get_ticks()
+        if not pause_game:
 
-        player.move(keys)
+            cTime = pygame.time.get_ticks()
 
-        m_x, m_y = pygame.mouse.get_pos()
+            player.move(keys_pressed)
 
-        if cTime - b_sTime >= b_cD:
-            b_sTime = pygame.time.get_ticks()
-            new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
-            bullets.append(new_bullet)
+            m_x, m_y = pygame.mouse.get_pos()
 
-        if len(enemies) < SPAWN_CAP:
-            e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
+            if cTime - b_sTime >= b_cD:
+                b_sTime = pygame.time.get_ticks()
+                new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
+                bullets.append(new_bullet)
 
-        for bullet in bullets:
-            bullet.move()
+            if len(enemies) < SPAWN_CAP:
+                e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
 
-        for enemy in enemies:
-            enemy.move(player.posX, player.posY, enemies)
+            for bullet in bullets:
+                bullet.move()
+
+            for enemy in enemies:
+                enemy.move(player.posX, player.posY, enemies)
 
         # ===================================================================================== #
 
-        enemies, bullets = bullet_collision(enemies, bullets)
+            enemies, bullets = normal_bullet_collision(enemies, bullets)
 
         bullets_to_remove = []
         for i, bullet in enumerate(bullets):
@@ -66,7 +78,7 @@ if __name__ == '__main__':
                 continue
         # ===================================================================================== #
 
-        screen.fill((0, 0, 0))  # Fill the display with a solid color
+        screen.fill(BACKGROUND_COLOR)  # Fill the display with a solid color
 
         for bullet in bullets:
             bullet.draw(screen)
@@ -76,6 +88,11 @@ if __name__ == '__main__':
         for enemy in enemies:
             enemy.draw(screen)
 
+        if pause_game:
+            msg = font.render('game paused', True, FONT_COLOR, BACKGROUND_COLOR)
+            msg_rect = msg.get_rect()
+            msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2)
+            screen.blit(msg, msg_rect)
         # Render the graphics here.
 
         pygame.display.flip()  # Refresh on-screen display
