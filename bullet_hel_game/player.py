@@ -1,6 +1,6 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP
 
 
 class Player(Entity):
@@ -21,7 +21,23 @@ class Player(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        self.max_hp = PLAYER_INIT_HP
+        self.hp = PLAYER_INIT_HP
+
     def draw(self, screen: pygame.surface.Surface) -> None:
+
+        # Draw health bar
+        hb_len = 250
+        hb_height = 10
+        green = (0, 255, 0)
+        red = (255, 0, 0)
+
+        pygame.draw.rect(screen, red, (5, 5, hb_len, hb_height))
+
+        p_hp = self.hp // self.max_hp
+
+        pygame.draw.rect(screen, green, (5, 5, hb_len * p_hp, hb_height))
+
         screen.blit(self.image, (self.posX, self.posY))
 
     def move(self, keys: pygame.key.ScancodeWrapper) -> None:
