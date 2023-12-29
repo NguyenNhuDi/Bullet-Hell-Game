@@ -1,6 +1,6 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR
 
 
 class Player(Entity):
@@ -27,6 +27,8 @@ class Player(Entity):
         self.iframe = PLAYER_IFRAME
         self.sTime = pygame.time.get_ticks()
 
+        self.font = pygame.font.Font('Black Hulk.otf', 20)
+
     def draw(self, screen: pygame.surface.Surface) -> None:
 
         # Draw health bar
@@ -40,6 +42,11 @@ class Player(Entity):
         p_hp = self.hp / self.max_hp
 
         pygame.draw.rect(screen, green, (5, 5, hb_len * p_hp, hb_height))
+
+        msg = self.font.render(f'{self.hp}', True, (0, 0, 0), BACKGROUND_COLOR)
+        msg_rect = msg.get_rect()
+        msg_rect.center = (275, 10)
+        screen.blit(msg, msg_rect)
 
         screen.blit(self.image, (self.posX, self.posY))
 
