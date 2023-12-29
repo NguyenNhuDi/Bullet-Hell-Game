@@ -4,7 +4,7 @@ from enemy import Enemy
 from player import Player
 from bullet import Bullet
 from gem import Gem
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE
+from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL
 import pygame
 
 
@@ -72,3 +72,28 @@ def normal_bullet_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tu
         out_bullets.append(j)
 
     return out_enemies, out_bullets
+
+
+def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
+    c_time = pygame.time.get_ticks()
+    for enemy in enemies:
+        x_offset = enemy.posX - player.posX
+        y_offset = enemy.posY - player.posY
+
+        x_offset *= x_offset
+        y_offset *= y_offset
+
+        dist = (x_offset + y_offset) ** 0.5
+
+        max_dist = (enemy.size ** 2 + player.size ** 2) ** 0.5
+
+        if dist <= max_dist:
+            enemy.vel = 0
+            if c_time - player.sTime >= player.iframe:
+                player.sTime = pygame.time.get_ticks()
+                player.hp -= E_DMG
+        else:
+            enemy.vel = E_VEL
+
+        if player.hp <= 0:
+            return

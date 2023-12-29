@@ -1,6 +1,6 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE, PLAYER_INIT_HP
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME
 
 
 class Player(Entity):
@@ -24,6 +24,9 @@ class Player(Entity):
         self.max_hp = PLAYER_INIT_HP
         self.hp = PLAYER_INIT_HP
 
+        self.iframe = PLAYER_IFRAME
+        self.sTime = pygame.time.get_ticks()
+
     def draw(self, screen: pygame.surface.Surface) -> None:
 
         # Draw health bar
@@ -34,7 +37,7 @@ class Player(Entity):
 
         pygame.draw.rect(screen, red, (5, 5, hb_len, hb_height))
 
-        p_hp = self.hp // self.max_hp
+        p_hp = self.hp / self.max_hp
 
         pygame.draw.rect(screen, green, (5, 5, hb_len * p_hp, hb_height))
 

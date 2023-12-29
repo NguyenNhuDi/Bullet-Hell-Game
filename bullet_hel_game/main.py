@@ -2,8 +2,9 @@ import time
 import pygame
 from player import Player
 from bullet import Bullet
-from utils import spawn_constant_enemy, normal_bullet_collision
-from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, FONT_COLOR
+from utils import spawn_constant_enemy, normal_bullet_collision, enemy_player_collision
+from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, \
+    FONT_COLOR
 
 pygame.init()
 
@@ -60,9 +61,10 @@ if __name__ == '__main__':
             for enemy in enemies:
                 enemy.move(player.posX, player.posY, enemies)
 
-        # ===================================================================================== #
+            # ===================================================================================== #
 
             enemies, bullets = normal_bullet_collision(enemies, bullets, gems)
+            enemy_player_collision(enemies, player)
 
         bullets_to_remove = []
         for i, bullet in enumerate(bullets):
