@@ -1,6 +1,6 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR, PLAYER_INIT_EXP
 
 
 class Player(Entity):
@@ -21,11 +21,16 @@ class Player(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        # HP things
         self.max_hp = PLAYER_INIT_HP
         self.hp = PLAYER_INIT_HP
 
         self.iframe = PLAYER_IFRAME
         self.sTime = pygame.time.get_ticks()
+
+        # EXP things
+        self.exp_needed = PLAYER_INIT_EXP
+        self.curr_exp = 0
 
         self.font = pygame.font.Font('Black Hulk.otf', 20)
 
@@ -46,6 +51,24 @@ class Player(Entity):
         msg = self.font.render(f'{self.hp}', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
         msg_rect.center = (275, 10)
+        screen.blit(msg, msg_rect)
+
+        # Draw EXP bar
+        eb_len = 125
+        eb_height = 5
+        green = (49, 189, 34)
+
+        # left bar
+        pygame.draw.rect(screen, green, (5, 25, 2, 10))
+        # right bar
+        pygame.draw.rect(screen, green, (eb_len + 6, 25, 2, 10))
+        # progress bar
+        p_exp = self.curr_exp / self.exp_needed
+        pygame.draw.rect(screen, green, (7, 30, eb_len * p_exp, eb_height))
+
+        msg = self.font.render(f'{p_exp:2.2f}%', True, (0, 0, 0), BACKGROUND_COLOR)
+        msg_rect = msg.get_rect()
+        msg_rect.center = (eb_len + 50, 30)
         screen.blit(msg, msg_rect)
 
         screen.blit(self.image, (self.posX, self.posY))

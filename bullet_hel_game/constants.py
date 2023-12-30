@@ -37,7 +37,8 @@ E_DMG = 10
 # Player Settings
 
 PLAYER_INIT_HP = 1000
-PLAYER_IFRAME = 100 # I frame for 0.1 seconds
+PLAYER_INIT_EXP = 100
+PLAYER_IFRAME = 100  # I frame for 0.1 seconds
 
 # Time Setting
 B_INIT_COOLDOWN = 500  # 1 second
