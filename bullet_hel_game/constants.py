@@ -33,13 +33,13 @@ SPAWN_DISTANCE = 20  # how many pixels away from player are enemies allowed to s
 SPAWN_CAP = 1  # how many enemy can exist on the map
 E_HEALTH = 5  # initial enemy health
 E_DMG = 10
+E_INIT_COOLDOWN = 500  # 5 second
+
 
 # Player Settings
 
 PLAYER_INIT_HP = 1000
 PLAYER_INIT_EXP = 100
-PLAYER_IFRAME = 100  # I frame for 0.1 seconds
-
-# Time Setting
 B_INIT_COOLDOWN = 500  # 1 second
-E_INIT_COOLDOWN = 500  # 5 second
+PLAYER_IFRAME = 10  # I frame for 0.1 seconds
+

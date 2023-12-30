@@ -97,3 +97,21 @@ def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
 
         if player.hp <= 0:
             return
+
+
+def gem_player_collision(gems: List, player: Player) -> List[Gem]:
+    r_index = set()
+
+    for i, gem in enumerate(gems):
+        if gem == -1:
+            continue
+
+        x_offset = gem.posX - player.posX
+        y_offset = gem.posY - player.posY
+
+        if player.mask.overlap(gem.mask, (x_offset, y_offset)):
+            r_index.add(i)
+            player.curr_exp += 1
+
+    out_gems = [gems[i] for i in range(len(gems)) if i not in r_index]
+    return out_gems

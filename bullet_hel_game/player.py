@@ -66,7 +66,7 @@ class Player(Entity):
         p_exp = self.curr_exp / self.exp_needed
         pygame.draw.rect(screen, green, (7, 30, eb_len * p_exp, eb_height))
 
-        msg = self.font.render(f'{p_exp:2.2f}%', True, (0, 0, 0), BACKGROUND_COLOR)
+        msg = self.font.render(f'{p_exp * 100:3.2f}%', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
         msg_rect.center = (eb_len + 50, 30)
         screen.blit(msg, msg_rect)
