@@ -52,9 +52,6 @@ def enemy_enemy_collision(enemies: List) -> List[Enemy]:
 
             if enemy_2.mask.overlap(enemy_1.mask, (x_offset, y_offset)):
 
-                max_speed = max(enemy_1.vel, enemy_2.vel)
-                min_speed = min(enemy_1.vel, enemy_2.vel)
-
                 if enemy_1.size >= enemy_2.size:
                     max_size = enemy_1.size
                     min_size = enemy_2.size
@@ -70,13 +67,10 @@ def enemy_enemy_collision(enemies: List) -> List[Enemy]:
 
                 new_enemy = Enemy(new_x, new_y)
                 new_enemy.size = (min_size * SIZE_FACTOR) + max_size
-                new_enemy.vel = (min_speed * SPEED_FACTOR) + max_speed
-
+                new_enemy.vel = new_enemy.size / E_VEL
                 new_enemy.hp = enemy_1.hp + enemy_2.hp
 
                 new_enemies.append(new_enemy)
-
-                print(new_enemy.vel)
 
                 enemies[i] = -1
                 enemies[j] = -1
@@ -130,7 +124,8 @@ def normal_bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem])
 # enemy player collision
 def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
     c_time = pygame.time.get_ticks()
-    for enemy in enemies:
+
+    for i, enemy in enumerate(enemies):
         x_offset = enemy.posX - player.posX
         y_offset = enemy.posY - player.posY
 
@@ -147,7 +142,7 @@ def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
                 player.sTime = pygame.time.get_ticks()
                 player.hp -= E_DMG
         else:
-            enemy.vel = E_VEL
+            enemy.vel = enemy.size / E_VEL
 
         if player.hp <= 0:
             return

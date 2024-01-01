@@ -14,7 +14,7 @@ HONING = 3
 # Entity Velocity
 
 P_VEL = 5
-E_VEL = 3
+E_VEL = 5  # Size divide by E_VEL (bigger is slower)
 B_VEL = 10
 
 # Entity Size
@@ -34,11 +34,9 @@ E_HEALTH = 5  # initial enemy health
 E_DMG = 10
 E_INIT_COOLDOWN = 500  # 5 second
 
-
 # Player Settings
 
 PLAYER_INIT_HP = 1000
 PLAYER_INIT_EXP = 100
 B_INIT_COOLDOWN = 500  # 1 second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds
-
