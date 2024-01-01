@@ -4,7 +4,7 @@ from enemy import Enemy
 from player import Player
 from bullet import Bullet
 from gem import Gem
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL
+from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, SPEED_FACTOR, SIZE_FACTOR
 import pygame
 
 
@@ -35,8 +35,61 @@ def spawn_gem(gems: List[Gem], x, y) -> None:
     gems.append(new_gem)
 
 
-# If the bullet has hit the enemy
-def normal_bullet_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
+# enemy on enemy collision
+def enemy_enemy_collision(enemies: List) -> List[Enemy]:
+    new_enemies = []
+
+    for i, enemy_1 in enumerate(enemies):
+        if enemy_1 == -1:
+            continue
+
+        for j, enemy_2 in enumerate(enemies):
+            if i == j or enemy_2 == -1:
+                continue
+
+            x_offset = enemy_1.posX - enemy_2.posX
+            y_offset = enemy_1.posY - enemy_2.posY
+
+            if enemy_2.mask.overlap(enemy_1.mask, (x_offset, y_offset)):
+
+                max_speed = max(enemy_1.vel, enemy_2.vel)
+                min_speed = min(enemy_1.vel, enemy_2.vel)
+
+                if enemy_1.size >= enemy_2.size:
+                    max_size = enemy_1.size
+                    min_size = enemy_2.size
+
+                    new_x = enemy_1.posX
+                    new_y = enemy_1.posY
+                else:
+                    max_size = enemy_2.size
+                    min_size = enemy_1.size
+
+                    new_x = enemy_2.posX
+                    new_y = enemy_2.posY
+
+                new_enemy = Enemy(new_x, new_y)
+                new_enemy.size = (min_size * SIZE_FACTOR) + max_size
+                new_enemy.vel = (min_speed * SPEED_FACTOR) + max_speed
+
+                new_enemy.hp = enemy_1.hp + enemy_2.hp
+
+                new_enemies.append(new_enemy)
+
+                print(new_enemy.vel)
+
+                enemies[i] = -1
+                enemies[j] = -1
+
+    enemies += new_enemies
+    enemies = set(enemies)
+    enemies = list(enemies)
+
+    return enemies
+
+
+# normal bullet on enemy collision
+def normal_bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
     for i, bullet in enumerate(bullets):
 
         if bullet == -1:
@@ -74,6 +127,7 @@ def normal_bullet_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tu
     return out_enemies, out_bullets
 
 
+# enemy player collision
 def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
     c_time = pygame.time.get_ticks()
     for enemy in enemies:
@@ -99,6 +153,7 @@ def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
             return
 
 
+# gem plyer collision
 def gem_player_collision(gems: List, player: Player) -> List[Gem]:
     r_index = set()
 

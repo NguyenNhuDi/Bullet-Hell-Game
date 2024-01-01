@@ -1,5 +1,5 @@
 from entity import Entity
-from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, COLOR_FACTOR, E_HEALTH
+from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, E_HEALTH
 import pygame
 import math
 
@@ -38,33 +38,33 @@ class Enemy(Entity):
         vel_x = self.vel * math.cos(angle)
         vel_y = self.vel * math.sin(angle)
 
-        # TODO fix merging later on
-        for i, enemy in enumerate(enemies):
-            if enemy is self:
-                continue
-            else:
-                x_offset = enemy.posX - self.posX
-                y_offset = enemy.posY - self.posY
-                if self.mask.overlap(enemy.mask, (x_offset, y_offset)):
-                    # they merged :D
-
-                    new_vel = self.vel if self.vel < enemy.vel else enemy.vel
-                    new_vel *= SPEED_FACTOR
-
-                    new_size = self.size if self.size > enemy.size else enemy.size
-                    new_size *= SIZE_FACTOR
-
-                    self.vel += new_vel
-                    self.size += new_size
-                    self.color[0] = enemy.color[0] if enemy.color[0] > self.color[0] else self.color[0]
-                    self.color[0] += COLOR_FACTOR
-                    self.hp += enemy.hp
-
-                    if self.color[0] >= 255:
-                        self.color[0] = 100
-
-                    enemies.pop(i)
-                    break
+        # # TODO fix merging later on
+        # for i, enemy in enumerate(enemies):
+        #     if enemy is self:
+        #         continue
+        #     else:
+        #         x_offset = enemy.posX - self.posX
+        #         y_offset = enemy.posY - self.posY
+        #         if self.mask.overlap(enemy.mask, (x_offset, y_offset)):
+        #             # they merged :D
+        #
+        #             new_vel = self.vel if self.vel < enemy.vel else enemy.vel
+        #             new_vel *= SPEED_FACTOR
+        #
+        #             new_size = self.size if self.size > enemy.size else enemy.size
+        #             new_size *= SIZE_FACTOR
+        #
+        #             self.vel += new_vel
+        #             self.size += new_size
+        #             self.color[0] = enemy.color[0] if enemy.color[0] > self.color[0] else self.color[0]
+        #             self.color[0] += COLOR_FACTOR
+        #             self.hp += enemy.hp
+        #
+        #             if self.color[0] >= 255:
+        #                 self.color[0] = 100
+        #
+        #             enemies.pop(i)
+        #             break
 
         self.posX += vel_x
         self.posY += vel_y

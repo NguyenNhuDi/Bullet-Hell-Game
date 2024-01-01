@@ -2,7 +2,7 @@ import time
 import pygame
 from player import Player
 from bullet import Bullet
-from utils import spawn_constant_enemy, normal_bullet_collision, enemy_player_collision, gem_player_collision
+from utils import spawn_constant_enemy, normal_bullet_enemy_collision, enemy_player_collision, gem_player_collision, enemy_enemy_collision
 from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, \
     FONT_COLOR
 
@@ -63,7 +63,8 @@ if __name__ == '__main__':
 
             # ===================================================================================== #
 
-            enemies, bullets = normal_bullet_collision(enemies, bullets, gems)
+            enemies = enemy_enemy_collision(enemies)
+            enemies, bullets = normal_bullet_enemy_collision(enemies, bullets, gems)
             enemy_player_collision(enemies, player)
             gems = gem_player_collision(gems, player)
 
