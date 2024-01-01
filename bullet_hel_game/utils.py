@@ -1,3 +1,4 @@
+import math
 from typing import List, Tuple
 import random
 from enemy import Enemy
@@ -6,6 +7,23 @@ from bullet import Bullet
 from gem import Gem
 from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR
 import pygame
+
+
+def spawn_bullet(bullets: List[Bullet], m_x: int, m_y: int, b_sTime: int, c_time: int, b_cD: int, player: Player,
+                 bullet_num=1) -> int:
+    if c_time - b_sTime >= b_cD:
+
+        angle_diff = 2 * math.pi / bullet_num
+
+        for i in range(bullet_num):
+            curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
+            curr_bullet.angle = curr_bullet.angle + i * angle_diff
+
+            bullets.append(curr_bullet)
+
+        b_sTime = pygame.time.get_ticks()
+
+    return b_sTime
 
 
 # spawn the enemy for constant intervals

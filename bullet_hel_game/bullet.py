@@ -10,15 +10,12 @@ class Bullet(Entity):
         self.b_type = b_type
 
         # angle and speed calculations
-        vel = B_VEL
+        self.vel = B_VEL
 
         n_x = m_x - x
         n_y = m_y - y
 
-        angle = math.atan2(n_y, n_x)
-
-        self.velX = vel * math.cos(angle)
-        self.velY = vel * math.sin(angle)
+        self.angle = math.atan2(n_y, n_x)
 
         self.color = (0, 0, 0)  # black
         self.size = B_SIZE
@@ -33,5 +30,8 @@ class Bullet(Entity):
         screen.blit(self.image, (self.posX, self.posY))
 
     def move(self) -> None:
-        self.posX += self.velX
-        self.posY += self.velY
+        velX = self.vel * math.cos(self.angle)
+        velY = self.vel * math.sin(self.angle)
+
+        self.posX += velX
+        self.posY += velY

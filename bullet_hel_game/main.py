@@ -72,10 +72,7 @@ if __name__ == '__main__':
 
             m_x, m_y = pygame.mouse.get_pos()
 
-            if cTime - b_sTime >= b_cD:
-                b_sTime = pygame.time.get_ticks()
-                new_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
-                bullets.append(new_bullet)
+            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 5)
 
             if len(enemies) < SPAWN_CAP:
                 e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
@@ -111,7 +108,7 @@ if __name__ == '__main__':
                 continue
         # ===================================================================================== #
 
-        screen.fill(BACKGROUND_COLOR)  # Fill the display with a solid color
+        screen.fill(BACKGROUND_COLOR)
         for bullet in bullets:
             bullet.draw(screen)
 
@@ -128,7 +125,6 @@ if __name__ == '__main__':
             msg_rect = msg.get_rect()
             msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2)
             screen.blit(msg, msg_rect)
-        # Render the graphics here.
 
-        pygame.display.flip()  # Refresh on-screen display
-        clock.tick(60)  # wait until next frame (at 60 FPS)
+        pygame.display.flip()
+        clock.tick(60)
