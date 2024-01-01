@@ -13,6 +13,7 @@ class Enemy(Entity):
         self.color = [100, 100, 100]  # Red ish
         self.size = E_SIZE
 
+        self.max_hp = E_HEALTH
         self.hp = E_HEALTH
 
         # Visual things
@@ -27,6 +28,11 @@ class Enemy(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        red = (255, 0, 0)
+
+        p_hp = self.hp / self.max_hp
+        pygame.draw.rect(screen, red, (self.posX, self.posY - 6, self.size * p_hp, 4))
+
         screen.blit(self.image, (self.posX, self.posY))
 
     def move(self, pX: int, pY: int, enemies) -> None:
@@ -37,34 +43,6 @@ class Enemy(Entity):
 
         vel_x = self.vel * math.cos(angle)
         vel_y = self.vel * math.sin(angle)
-
-        # # TODO fix merging later on
-        # for i, enemy in enumerate(enemies):
-        #     if enemy is self:
-        #         continue
-        #     else:
-        #         x_offset = enemy.posX - self.posX
-        #         y_offset = enemy.posY - self.posY
-        #         if self.mask.overlap(enemy.mask, (x_offset, y_offset)):
-        #             # they merged :D
-        #
-        #             new_vel = self.vel if self.vel < enemy.vel else enemy.vel
-        #             new_vel *= SPEED_FACTOR
-        #
-        #             new_size = self.size if self.size > enemy.size else enemy.size
-        #             new_size *= SIZE_FACTOR
-        #
-        #             self.vel += new_vel
-        #             self.size += new_size
-        #             self.color[0] = enemy.color[0] if enemy.color[0] > self.color[0] else self.color[0]
-        #             self.color[0] += COLOR_FACTOR
-        #             self.hp += enemy.hp
-        #
-        #             if self.color[0] >= 255:
-        #                 self.color[0] = 100
-        #
-        #             enemies.pop(i)
-        #             break
 
         self.posX += vel_x
         self.posY += vel_y

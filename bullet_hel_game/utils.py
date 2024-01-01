@@ -69,6 +69,7 @@ def enemy_enemy_collision(enemies: List) -> List[Enemy]:
                 new_enemy.size = (min_size * SIZE_FACTOR) + max_size
                 new_enemy.vel = new_enemy.size / E_VEL
                 new_enemy.hp = enemy_1.hp + enemy_2.hp
+                new_enemy.max_hp = enemy_1.max_hp + enemy_2.max_hp
 
                 new_enemies.append(new_enemy)
 
