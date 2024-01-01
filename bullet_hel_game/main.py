@@ -1,8 +1,5 @@
 import time
-import pygame
-from player import Player
-from bullet import Bullet
-from utils import spawn_constant_enemy, normal_bullet_enemy_collision, enemy_player_collision, gem_player_collision, enemy_enemy_collision
+from utils import *
 from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, \
     FONT_COLOR
 
@@ -38,6 +35,29 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT or keys_pressed[pygame.K_ESCAPE]:
                 pygame.quit()
                 raise SystemExit
+
+        if is_game_over(player):
+
+            msg = font.render('game over', True, FONT_COLOR, BACKGROUND_COLOR)
+            msg_rect = msg.get_rect()
+            msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2 - 50)
+            screen.blit(msg, msg_rect)
+
+            msg = font.render('press R to restart', True, FONT_COLOR, BACKGROUND_COLOR)
+            msg_rect = msg.get_rect()
+            msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2 + 50)
+            screen.blit(msg, msg_rect)
+
+            pygame.display.flip()
+
+            if keys_pressed[pygame.K_r]:
+                player = Player(400, 300)
+                pause_game = False
+                bullets = []
+                enemies = []
+                gems = []
+
+            continue
 
         if not pause_game:
 
@@ -84,7 +104,6 @@ if __name__ == '__main__':
         # ===================================================================================== #
 
         screen.fill(BACKGROUND_COLOR)  # Fill the display with a solid color
-
         for bullet in bullets:
             bullet.draw(screen)
 

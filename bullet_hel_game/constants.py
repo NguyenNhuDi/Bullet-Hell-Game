@@ -14,7 +14,7 @@ HONING = 3
 # Entity Velocity
 
 P_VEL = 5
-E_VEL = 5  # Size divide by E_VEL (bigger is slower)
+E_VEL = 10  # Size divide by E_VEL (bigger is slower)
 B_VEL = 10
 
 # Entity Size

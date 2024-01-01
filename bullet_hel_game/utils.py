@@ -166,3 +166,9 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
 
     out_gems = [gems[i] for i in range(len(gems)) if i not in r_index]
     return out_gems
+
+
+# ==============================================================================
+
+def is_game_over(player: Player) -> bool:
+    return player.hp <= 0
