@@ -173,7 +173,6 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
         if dist <= COLLECT_DIST:
             gem.vel = player.velX * 2
 
-
     out_gems = [gems[i] for i in range(len(gems)) if i not in r_index]
     return out_gems
 
@@ -182,3 +181,7 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
 
 def is_game_over(player: Player) -> bool:
     return player.hp <= 0
+
+
+def is_lvl_up(player: Player) -> bool:
+    return player.curr_exp >= player.exp_needed

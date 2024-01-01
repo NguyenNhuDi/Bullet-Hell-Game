@@ -40,3 +40,4 @@ PLAYER_INIT_EXP = 25
 B_INIT_COOLDOWN = 50  # 50 milli second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds
 COLLECT_DIST = 30  # the distance to collect the gems
+LVL_SCALING = 1.05441  # the next lvl exp needed

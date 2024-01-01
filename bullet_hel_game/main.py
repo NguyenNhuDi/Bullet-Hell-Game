@@ -1,7 +1,7 @@
 import time
 from utils import *
-from constants import S_WIDTH, S_HEIGHT, TITLE, B_INIT_COOLDOWN, E_INIT_COOLDOWN, SPAWN_CAP, BACKGROUND_COLOR, \
-    FONT_COLOR
+from constants import *
+import math
 
 pygame.init()
 
@@ -60,6 +60,11 @@ if __name__ == '__main__':
             continue
 
         if not pause_game:
+
+            if is_lvl_up(player):
+                player.curr_exp = player.curr_exp - player.exp_needed
+                player.lvl += 1 if player.lvl < 100 else 0
+                player.exp_needed = math.ceil(LVL_SCALING * player.exp_needed)
 
             cTime = pygame.time.get_ticks()
 

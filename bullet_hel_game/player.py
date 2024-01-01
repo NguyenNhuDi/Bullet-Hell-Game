@@ -31,6 +31,7 @@ class Player(Entity):
         # EXP things
         self.exp_needed = PLAYER_INIT_EXP
         self.curr_exp = 0
+        self.lvl = 1
 
         self.font = pygame.font.Font('Black Hulk.otf', 20)
 
@@ -47,7 +48,6 @@ class Player(Entity):
         p_hp = self.hp / self.max_hp
 
         pygame.draw.rect(screen, green, (5, 5, hb_len * p_hp, hb_height))
-
         msg = self.font.render(f'{self.hp}', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
         msg_rect.center = (275, 10)
@@ -63,12 +63,17 @@ class Player(Entity):
         # right bar
         pygame.draw.rect(screen, green, (eb_len + 6, 25, 2, 10))
         # progress bar
-        p_exp = self.curr_exp / self.exp_needed
-        pygame.draw.rect(screen, green, (7, 30, eb_len * min(p_exp, 1), eb_height))
+        p_exp = min(1, self.curr_exp / self.exp_needed)
+        pygame.draw.rect(screen, green, (7, 30, eb_len * p_exp, eb_height))
 
         msg = self.font.render(f'{p_exp * 100:3.2f}%', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
         msg_rect.center = (eb_len + 50, 30)
+        screen.blit(msg, msg_rect)
+
+        msg = self.font.render(f'lvl: {self.lvl}', True, (0, 0, 0), BACKGROUND_COLOR)
+        msg_rect = msg.get_rect()
+        msg_rect.center = (eb_len + 125, 30)
         screen.blit(msg, msg_rect)
 
         screen.blit(self.image, (self.posX, self.posY))
