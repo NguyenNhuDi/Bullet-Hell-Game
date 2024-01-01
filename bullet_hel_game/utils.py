@@ -4,7 +4,7 @@ from enemy import Enemy
 from player import Player
 from bullet import Bullet
 from gem import Gem
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, SPEED_FACTOR, SIZE_FACTOR
+from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR
 import pygame
 
 
@@ -163,6 +163,16 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
         if player.mask.overlap(gem.mask, (x_offset, y_offset)):
             r_index.add(i)
             player.curr_exp += 1
+
+        # distance management
+        x_offset *= x_offset
+        y_offset *= y_offset
+
+        dist = (x_offset + y_offset) ** 0.5
+
+        if dist <= COLLECT_DIST:
+            gem.vel = player.velX * 2
+
 
     out_gems = [gems[i] for i in range(len(gems)) if i not in r_index]
     return out_gems

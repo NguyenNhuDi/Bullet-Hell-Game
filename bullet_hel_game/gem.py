@@ -1,6 +1,7 @@
 from entity import Entity
 from constants import G_SIZE
 import pygame
+import math
 
 
 class Gem(Entity):
@@ -15,5 +16,19 @@ class Gem(Entity):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        self.vel = 0
+
     def draw(self, screen: pygame.surface.Surface) -> None:
         screen.blit(self.image, (self.posX, self.posY))
+
+    def move(self, pX: int, pY: int):
+        n_x = pX - self.posX
+        n_y = pY - self.posY
+
+        angle = math.atan2(n_y, n_x)
+
+        vel_x = self.vel * math.cos(angle)
+        vel_y = self.vel * math.sin(angle)
+
+        self.posX += vel_x
+        self.posY += vel_y

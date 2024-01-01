@@ -1,5 +1,5 @@
 from entity import Entity
-from constants import E_VEL, E_SIZE, SPEED_FACTOR, SIZE_FACTOR, E_HEALTH
+from constants import E_VEL, E_SIZE, E_HEALTH
 import pygame
 import math
 
@@ -35,7 +35,7 @@ class Enemy(Entity):
 
         screen.blit(self.image, (self.posX, self.posY))
 
-    def move(self, pX: int, pY: int, enemies) -> None:
+    def move(self, pX: int, pY: int) -> None:
         n_x = pX - self.posX
         n_y = pY - self.posY
 

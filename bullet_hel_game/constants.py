@@ -26,7 +26,6 @@ G_SIZE = 10
 
 # Enemy Settings
 
-SPEED_FACTOR = 0.1  # multiplicative
 SIZE_FACTOR = 0.1  # multiplicative
 SPAWN_DISTANCE = 20  # how many pixels away from player are enemies allowed to spawn
 SPAWN_CAP = 5  # how many enemy can exist on the map
@@ -37,6 +36,7 @@ E_INIT_COOLDOWN = 500  # 5 second
 # Player Settings
 
 PLAYER_INIT_HP = 1000
-PLAYER_INIT_EXP = 100
+PLAYER_INIT_EXP = 25
 B_INIT_COOLDOWN = 50  # 50 milli second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds
+COLLECT_DIST = 30  # the distance to collect the gems

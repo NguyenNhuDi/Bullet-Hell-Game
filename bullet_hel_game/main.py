@@ -78,8 +78,11 @@ if __name__ == '__main__':
             for bullet in bullets:
                 bullet.move()
 
+            for gem in gems:
+                gem.move(player.posX, player.posY)
+
             for enemy in enemies:
-                enemy.move(player.posX, player.posY, enemies)
+                enemy.move(player.posX, player.posY)
 
             # ===================================================================================== #
 

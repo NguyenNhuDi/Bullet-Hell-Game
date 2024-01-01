@@ -64,7 +64,7 @@ class Player(Entity):
         pygame.draw.rect(screen, green, (eb_len + 6, 25, 2, 10))
         # progress bar
         p_exp = self.curr_exp / self.exp_needed
-        pygame.draw.rect(screen, green, (7, 30, eb_len * p_exp, eb_height))
+        pygame.draw.rect(screen, green, (7, 30, eb_len * min(p_exp, 1), eb_height))
 
         msg = self.font.render(f'{p_exp * 100:3.2f}%', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
