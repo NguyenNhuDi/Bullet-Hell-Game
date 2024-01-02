@@ -11,5 +11,3 @@ class Entity(pygame.sprite.Sprite):
 
         self.sWidth = S_WIDTH
         self.sHeight = S_HEIGHT
-
-
