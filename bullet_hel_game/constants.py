@@ -8,11 +8,8 @@ BACKGROUND_COLOR = (180, 196, 222)
 FONT_COLOR = (52, 58, 235)
 
 # Bullet Setting
-
-BASIC = 1
-SPLIT = 2
-HONING = 3
 B_VEL = 10
+B_CD = 100
 
 # Entity Size
 
@@ -37,10 +34,10 @@ E_INIT_COOLDOWN = 500  # 5 second
 P_VEL = 5
 PLAYER_INIT_HP = 1000
 PLAYER_INIT_EXP = 25
-B_INIT_COOLDOWN = 50000  # milli second
+B_INIT_COOLDOWN = 1000  # milli second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds
 COLLECT_DIST = 30  # the distance to collect the gems
-LVL_SCALING = 1.05441  # the next lvl exp needed
+LVL_SCALING = 1.112  # the next lvl exp needed
 
 # Morning Star Settings
 MSTAR_VEL = 2 * math.pi / 60

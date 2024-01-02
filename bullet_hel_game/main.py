@@ -18,15 +18,12 @@ if __name__ == '__main__':
     bullets = []
     enemies = []
     gems = []
-    m_stars = spawn_m_star(400, 300, 5)
+    m_stars = spawn_m_star(400, 300, 0)
 
     b_sTime = pygame.time.get_ticks()
     e_sTime = b_sTime
     b_cD = B_INIT_COOLDOWN
     e_cD = E_INIT_COOLDOWN
-
-    testStar = MorningStar(player.posX, player.posY, 0)
-    m_stars.append(testStar)
 
     while True:
         keys_pressed = pygame.key.get_pressed()
@@ -67,7 +64,7 @@ if __name__ == '__main__':
 
             if is_lvl_up(player):
                 player.curr_exp = player.curr_exp - player.exp_needed
-                player.lvl += 1 if player.lvl < 100 else 0
+                player.lvl += 1 if player.lvl < 50 else 0
                 player.exp_needed = math.ceil(LVL_SCALING * player.exp_needed)
 
             cTime = pygame.time.get_ticks()
@@ -76,7 +73,7 @@ if __name__ == '__main__':
 
             m_x, m_y = pygame.mouse.get_pos()
 
-            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 5)
+            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 1)
 
             if len(enemies) < SPAWN_CAP:
                 e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
@@ -97,7 +94,7 @@ if __name__ == '__main__':
 
             enemies = enemy_enemy_collision(enemies)
             enemies = morning_star_enemy_collision(enemies, m_stars, gems)
-            enemies, bullets = normal_bullet_enemy_collision(enemies, bullets, gems)
+            enemies, bullets = bullet_enemy_collision(enemies, bullets, gems)
             enemy_player_collision(enemies, player)
             gems = gem_player_collision(gems, player)
 

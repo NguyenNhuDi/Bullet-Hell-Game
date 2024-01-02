@@ -6,7 +6,7 @@ from player import Player
 from bullet import Bullet
 from gem import Gem
 from mStar import MorningStar
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR
+from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR, B_CD
 import pygame
 
 
@@ -17,7 +17,7 @@ def spawn_bullet(bullets: List[Bullet], m_x: int, m_y: int, b_sTime: int, c_time
         angle_diff = 2 * math.pi / bullet_num
 
         for i in range(bullet_num):
-            curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y)
+            curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y, hp=2)
             curr_bullet.angle = curr_bullet.angle + i * angle_diff
 
             bullets.append(curr_bullet)
@@ -55,6 +55,9 @@ def spawn_gem(gems: List[Gem], x, y) -> None:
 
 
 def spawn_m_star(pX: int, pY: int, nums: int) -> List[MorningStar]:
+    if nums == 0:
+        return []
+
     out_m_stars = []
     angle_diff = math.pi * 2 / nums
 
@@ -141,7 +144,7 @@ def morning_star_enemy_collision(enemies: List, m_stars: List[MorningStar], gems
 
 
 # normal bullet on enemy collision
-def normal_bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
+def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
     for i, bullet in enumerate(bullets):
 
         if bullet == -1:
@@ -156,12 +159,18 @@ def normal_bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem])
 
             # bullet collided with this enemy
             if bullet.mask.overlap(enemy.mask, (x_offset, y_offset)):
-                bullets[i] = -1
+                c_time = pygame.time.get_ticks()
+                if c_time - bullet.sTime >= B_CD:
+                    bullet.sTime = pygame.time.get_ticks()
+                    enemy.hp -= 1
+                    bullet.hp -= 1
 
-                enemy.hp -= 1
-                if enemy.hp <= 0:
-                    spawn_gem(gems, enemy.posX, enemy.posY)
-                    enemies[j] = -1
+            if enemy.hp <= 0:
+                spawn_gem(gems, enemy.posX, enemy.posY)
+                enemies[j] = -1
+
+            if bullet.hp <= 0:
+                bullets[i] = -1
 
     out_enemies = []
     out_bullets = []
