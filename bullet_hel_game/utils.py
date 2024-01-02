@@ -54,6 +54,17 @@ def spawn_gem(gems: List[Gem], x, y) -> None:
     gems.append(new_gem)
 
 
+def spawn_m_star(pX: int, pY: int, nums: int) -> List[MorningStar]:
+    out_m_stars = []
+    angle_diff = math.pi * 2 / nums
+
+    for i in range(nums):
+        curr_star = MorningStar(pX, pY, angle_diff * i)
+        out_m_stars.append(curr_star)
+
+    return out_m_stars
+
+
 # enemy on enemy collision
 def enemy_enemy_collision(enemies: List) -> List[Enemy]:
     new_enemies = []

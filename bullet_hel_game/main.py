@@ -18,7 +18,7 @@ if __name__ == '__main__':
     bullets = []
     enemies = []
     gems = []
-    m_stars = []
+    m_stars = spawn_m_star(400, 300, 5)
 
     b_sTime = pygame.time.get_ticks()
     e_sTime = b_sTime
