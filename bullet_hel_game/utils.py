@@ -5,6 +5,7 @@ from enemy import Enemy
 from player import Player
 from bullet import Bullet
 from gem import Gem
+from mStar import MorningStar
 from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR
 import pygame
 
@@ -99,6 +100,33 @@ def enemy_enemy_collision(enemies: List) -> List[Enemy]:
     enemies = list(enemies)
 
     return enemies
+
+
+def morning_star_enemy_collision(enemies: List, m_stars: List[MorningStar], gems: List[Gem]) -> List[Enemy]:
+    for i, m_star in enumerate(m_stars):
+
+        for j, enemy in enumerate(enemies):
+            if enemy == -1:
+                continue
+
+            x_offset = enemy.posX - m_star.posX
+            y_offset = enemy.posY - m_star.posY
+
+            # m_star collided with this enemy
+            if m_star.mask.overlap(enemy.mask, (x_offset, y_offset)):
+                enemy.hp -= 1
+                if enemy.hp <= 0:
+                    spawn_gem(gems, enemy.posX, enemy.posY)
+                    enemies[j] = -1
+
+    out_enemies = []
+
+    for i in enemies:
+        if i == -1:
+            continue
+        out_enemies.append(i)
+
+    return out_enemies
 
 
 # normal bullet on enemy collision

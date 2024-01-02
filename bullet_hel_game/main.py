@@ -18,11 +18,15 @@ if __name__ == '__main__':
     bullets = []
     enemies = []
     gems = []
+    m_stars = []
 
     b_sTime = pygame.time.get_ticks()
     e_sTime = b_sTime
     b_cD = B_INIT_COOLDOWN
     e_cD = E_INIT_COOLDOWN
+
+    testStar = MorningStar(player.posX, player.posY, 0)
+    m_stars.append(testStar)
 
     while True:
         keys_pressed = pygame.key.get_pressed()
@@ -86,9 +90,13 @@ if __name__ == '__main__':
             for enemy in enemies:
                 enemy.move(player.posX, player.posY)
 
+            for m_star in m_stars:
+                m_star.move(player.posX, player.posY)
+
             # ===================================================================================== #
 
             enemies = enemy_enemy_collision(enemies)
+            enemies = morning_star_enemy_collision(enemies, m_stars, gems)
             enemies, bullets = normal_bullet_enemy_collision(enemies, bullets, gems)
             enemy_player_collision(enemies, player)
             gems = gem_player_collision(gems, player)
@@ -114,6 +122,9 @@ if __name__ == '__main__':
 
         for gem in gems:
             gem.draw(screen)
+
+        for m_star in m_stars:
+            m_star.draw(screen)
 
         player.draw(screen)
 
