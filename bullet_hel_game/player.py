@@ -1,6 +1,7 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR, PLAYER_INIT_EXP, PLAYER_INIT_HP_REGEN
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR, PLAYER_INIT_EXP, \
+                       PLAYER_INIT_HP_REGEN
 
 
 class Player(Entity):

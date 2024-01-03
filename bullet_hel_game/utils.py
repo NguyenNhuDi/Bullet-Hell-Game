@@ -257,8 +257,27 @@ def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tup
 
             # bullet collided with this enemy
             if bullet.mask.overlap(enemy.mask, (x_offset, y_offset)):
-                c_time = pygame.time.get_ticks()
-                if c_time - bullet.sTime >= B_CD:
+                if not bullet.fHit:
+                    c_time = pygame.time.get_ticks()
+                    if c_time - bullet.sTime >= B_CD:
+                        bullet.sTime = pygame.time.get_ticks()
+                        enemy.hp -= bullet.damage
+
+                        if bullet.split:
+                            if bullet.split_amount == 1:
+                                b1 = Bullet(bullet.posX, bullet.posY, -1, -1, False, hp=bullet.hp)
+                                b2 = Bullet(bullet.posX, bullet.posY, -1, -1, False, hp=bullet.hp)
+
+                                b1.angle = bullet.angle - math.pi / 3
+                                b2.angle = bullet.angle + math.pi / 3
+
+                                bullets.append(b1)
+                                bullets.append(b2)
+                            else:
+                                split_bullet(bullets, bullet, bullet.split_amount)
+                        bullet.hp -= 1
+                else:
+                    bullet.fHit = True
                     bullet.sTime = pygame.time.get_ticks()
                     enemy.hp -= bullet.damage
 
@@ -274,7 +293,6 @@ def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tup
                             bullets.append(b2)
                         else:
                             split_bullet(bullets, bullet, bullet.split_amount)
-                    bullet.hp -= 1
 
             if enemy.hp <= 0:
                 spawn_gem(gems, enemy.posX, enemy.posY)

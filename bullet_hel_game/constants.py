@@ -48,3 +48,17 @@ LVL_SCALING = 1.112  # the next lvl exp needed
 # Morning Star Settings
 MSTAR_VEL = 2 * math.pi / 60
 MSTAR_RADIUS = 30
+
+
+#           LVL UP CONSTANTS
+# ===========================================
+ADD_BULLET_DIRECTION = 1
+ADD_BULLET_PIERCE = 2
+ADD_BULLET_SPLIT = 3
+ADD_COLLECT_RANGE = 4
+ADD_DMG = 5
+ADD_EXP_RATE = 6
+ADD_HP = 7
+ADD_HP_REGEN = 8
+ADD_SPEED = 9
+REDUCE_BULLET_CD = 10

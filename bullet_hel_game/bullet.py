@@ -30,6 +30,7 @@ class Bullet(Entity):
         self.hp = hp
 
         self.sTime = pygame.time.get_ticks()
+        self.fHit = False
 
         # damage
         self.damage = dmg

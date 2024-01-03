@@ -67,8 +67,6 @@ if __name__ == '__main__':
 
             if is_lvl_up(player):
 
-                add_hp_regen(player, 5)
-
                 player.curr_exp = player.curr_exp - player.exp_needed
                 player.lvl += 1 if player.lvl < 50 else 0
                 player.exp_needed = math.ceil(LVL_SCALING * player.exp_needed)
