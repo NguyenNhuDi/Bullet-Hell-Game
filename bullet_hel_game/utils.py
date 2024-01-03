@@ -6,18 +6,33 @@ from player import Player
 from bullet import Bullet
 from gem import Gem
 from mStar import MorningStar
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR, B_CD
+from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR, B_CD, B_SIZE_0, \
+    B_SIZE_1, B_SIZE_2, B_SIZE_3, B_SIZE_4, B_SIZE_5
 import pygame
 
 
 def spawn_bullet(bullets: List[Bullet], m_x: int, m_y: int, b_sTime: int, c_time: int, b_cD: int, player: Player,
-                 bullet_num=1) -> int:
+                 bullet_num: int = 1, bullet_hp: int = 1, split_lvl: int = 0) -> int:
     if c_time - b_sTime >= b_cD:
 
         angle_diff = 2 * math.pi / bullet_num
 
+        b_size = B_SIZE_0
+
+        if split_lvl == 1:
+            b_size = B_SIZE_1
+        elif split_lvl == 2:
+            b_size = B_SIZE_2
+        elif split_lvl == 3:
+            b_size = B_SIZE_3
+        elif split_lvl == 4:
+            b_size = B_SIZE_2
+        elif split_lvl == 5:
+            b_size = B_SIZE_5
+
         for i in range(bullet_num):
-            curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y, hp=2)
+            curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y, hp=bullet_hp,
+                                 split=True if split_lvl > 0 else False, split_amount=split_lvl, size=b_size)
             curr_bullet.angle = curr_bullet.angle + i * angle_diff
 
             bullets.append(curr_bullet)
@@ -143,6 +158,27 @@ def morning_star_enemy_collision(enemies: List, m_stars: List[MorningStar], gems
     return out_enemies
 
 
+def split_bullet(bullets: List[Bullet], bullet: Bullet, curr_lvl: int):
+    angle_diff = 2 * math.pi / (curr_lvl + 1)
+
+    b_size = B_SIZE_5
+
+    if curr_lvl == 1:
+        b_size = B_SIZE_1
+    elif curr_lvl == 2:
+        b_size = B_SIZE_2
+    elif curr_lvl == 3:
+        b_size = B_SIZE_3
+    elif curr_lvl == 4:
+        b_size = B_SIZE_2
+
+    for k in range(1, curr_lvl + 2):
+        c_bullet = Bullet(bullet.posX, bullet.posY, -1, -1, True, split_amount=curr_lvl - 1, hp=bullet.hp, size=b_size)
+        c_bullet.angle = bullet.angle + k * angle_diff
+
+        bullets.append(c_bullet)
+
+
 # normal bullet on enemy collision
 def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tuple[List[Enemy], List[Bullet]]:
     for i, bullet in enumerate(bullets):
@@ -163,6 +199,19 @@ def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tup
                 if c_time - bullet.sTime >= B_CD:
                     bullet.sTime = pygame.time.get_ticks()
                     enemy.hp -= 1
+
+                    if bullet.split:
+                        if bullet.split_amount == 1:
+                            b1 = Bullet(bullet.posX, bullet.posY, -1, -1, False, hp=bullet.hp)
+                            b2 = Bullet(bullet.posX, bullet.posY, -1, -1, False, hp=bullet.hp)
+
+                            b1.angle = bullet.angle - math.pi / 3
+                            b2.angle = bullet.angle + math.pi / 3
+
+                            bullets.append(b1)
+                            bullets.append(b2)
+                        else:
+                            split_bullet(bullets, bullet, bullet.split_amount)
                     bullet.hp -= 1
 
             if enemy.hp <= 0:

@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
             m_x, m_y = pygame.mouse.get_pos()
 
-            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 1)
+            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 1, 5, 5)
 
             if len(enemies) < SPAWN_CAP:
                 e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
