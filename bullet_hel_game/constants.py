@@ -38,7 +38,7 @@ E_INIT_COOLDOWN = 500  # 5 second
 
 P_VEL = 3
 PLAYER_INIT_HP = 1000
-PLAYER_INIT_EXP = 25
+PLAYER_INIT_EXP = 1 # was 25 before
 PLAYER_INIT_HP_REGEN = 0
 B_INIT_COOLDOWN = 100  # milli second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds

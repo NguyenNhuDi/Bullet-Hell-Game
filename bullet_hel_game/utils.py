@@ -6,9 +6,39 @@ from player import Player
 from bullet import Bullet
 from gem import Gem
 from mStar import MorningStar
-from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR, B_CD, B_SIZE_0, \
-    B_SIZE_1, B_SIZE_2, B_SIZE_3, B_SIZE_4, B_SIZE_5, P_VEL, PLAYER_INIT_HP
+from button import Button
+from constants import *
 import pygame
+
+
+def display_game(screen: pygame.surface.Surface, bullets: List[Bullet], gems: List[Gem], m_stars: List[MorningStar],
+                 player: Player, enemies: List[Enemy], buttons: List[Button], pause_game: bool,
+                 font) -> None:
+    screen.fill(BACKGROUND_COLOR)
+    for bullet in bullets:
+        bullet.draw(screen)
+
+    for gem in gems:
+        gem.draw(screen)
+
+    for m_star in m_stars:
+        m_star.draw(screen)
+
+    player.draw(screen)
+
+    for enemy in enemies:
+        enemy.draw(screen)
+
+    for button in buttons:
+        button.draw(screen)
+
+    if pause_game:
+        msg = font.render('game paused', True, FONT_COLOR, BACKGROUND_COLOR)
+        msg_rect = msg.get_rect()
+        msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2)
+        screen.blit(msg, msg_rect)
+
+    pygame.display.flip()
 
 
 def add_bullet_direction(lvl: int) -> int:
@@ -142,6 +172,9 @@ def spawn_m_star(pX: int, pY: int, nums: int) -> List[MorningStar]:
         out_m_stars.append(curr_star)
 
     return out_m_stars
+
+
+# ===============================================================
 
 
 # enemy on enemy collision

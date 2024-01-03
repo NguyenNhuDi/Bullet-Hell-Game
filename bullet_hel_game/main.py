@@ -28,6 +28,12 @@ if __name__ == '__main__':
     b_cD = B_INIT_COOLDOWN
     e_cD = E_INIT_COOLDOWN
 
+    # test_box_1 = Button(50, 100, 'hello world', ADD_HP)
+    # test_box_2 = Button(300, 100, 'hello world', ADD_DMG)
+    # test_box_3 = Button(550, 100, 'hello world', ADD_SPEED)
+
+    buttons = []
+    pos = 0
     while True:
         keys_pressed = pygame.key.get_pressed()
 
@@ -64,8 +70,39 @@ if __name__ == '__main__':
             continue
 
         if not pause_game:
-
             if is_lvl_up(player):
+                test_box_1 = Button(50, 100, 'hello world', ADD_HP)
+                test_box_2 = Button(300, 100, 'hello world', ADD_DMG)
+                test_box_3 = Button(550, 100, 'hello world', ADD_SPEED)
+
+                buttons.append(test_box_1)
+                buttons.append(test_box_2)
+                buttons.append(test_box_3)
+                left_button_pressed = False
+                while True:
+                    keys_pressed = pygame.key.get_pressed()
+
+                    display_game(screen, bullets, gems, m_stars, player, enemies, buttons, pause_game, font)
+
+                    if len(buttons) == 1:
+                        ...
+                    elif len(buttons) == 2:
+                        ...
+                    else:
+
+                        buttons[pos].color = (255, 0, 0)
+                        if keys_pressed[pygame.K_LEFT] and not left_button_pressed:
+                            left_button_pressed = True
+                            buttons[pos].color = (168, 227, 197)
+
+                            if pos == 0:
+                                pos = 2
+                            else:
+                                pos -= 1
+
+                        if not keys_pressed[pygame.K_LEFT]:
+                            left_button_pressed = False
+                    pygame.event.pump()
 
                 player.curr_exp = player.curr_exp - player.exp_needed
                 player.lvl += 1 if player.lvl < 50 else 0
@@ -119,26 +156,6 @@ if __name__ == '__main__':
                 continue
         # ===================================================================================== #
 
-        screen.fill(BACKGROUND_COLOR)
-        for bullet in bullets:
-            bullet.draw(screen)
+        display_game(screen, bullets, gems, m_stars, player, enemies, buttons, pause_game, font)
 
-        for gem in gems:
-            gem.draw(screen)
-
-        for m_star in m_stars:
-            m_star.draw(screen)
-
-        player.draw(screen)
-
-        for enemy in enemies:
-            enemy.draw(screen)
-
-        if pause_game:
-            msg = font.render('game paused', True, FONT_COLOR, BACKGROUND_COLOR)
-            msg_rect = msg.get_rect()
-            msg_rect.center = (S_WIDTH // 2, S_HEIGHT // 2)
-            screen.blit(msg, msg_rect)
-
-        pygame.display.flip()
         clock.tick(60)
