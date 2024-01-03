@@ -11,6 +11,9 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     font = pygame.font.Font('Black Hulk.otf', 64)
 
+    dmg = add_dmg(0)
+    collect_dist = COLLECT_DIST
+
     player = Player(400, 300)
 
     pause_game = False
@@ -63,6 +66,9 @@ if __name__ == '__main__':
         if not pause_game:
 
             if is_lvl_up(player):
+
+                add_hp_regen(player, 5)
+
                 player.curr_exp = player.curr_exp - player.exp_needed
                 player.lvl += 1 if player.lvl < 50 else 0
                 player.exp_needed = math.ceil(LVL_SCALING * player.exp_needed)
@@ -73,7 +79,9 @@ if __name__ == '__main__':
 
             m_x, m_y = pygame.mouse.get_pos()
 
-            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 1, 5, 5)
+            b_sTime = spawn_bullet(bullets, m_x, m_y, b_sTime, cTime, b_cD, player, 1, 5, 5, dmg)
+
+            regen_hp(player, cTime)
 
             if len(enemies) < SPAWN_CAP:
                 e_sTime = spawn_constant_enemy(enemies, e_sTime, cTime, e_cD, player)
@@ -96,7 +104,7 @@ if __name__ == '__main__':
             enemies = morning_star_enemy_collision(enemies, m_stars, gems)
             enemies, bullets = bullet_enemy_collision(enemies, bullets, gems)
             enemy_player_collision(enemies, player)
-            gems = gem_player_collision(gems, player)
+            gems = gem_player_collision(gems, player, collect_dist)
 
         bullets_to_remove = []
         for i, bullet in enumerate(bullets):

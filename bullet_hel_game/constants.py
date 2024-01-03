@@ -36,10 +36,11 @@ E_INIT_COOLDOWN = 500  # 5 second
 
 # Player Settings
 
-P_VEL = 5
+P_VEL = 3
 PLAYER_INIT_HP = 1000
 PLAYER_INIT_EXP = 25
-B_INIT_COOLDOWN = 1000  # milli second
+PLAYER_INIT_HP_REGEN = 0
+B_INIT_COOLDOWN = 100  # milli second
 PLAYER_IFRAME = 10  # I frame for 0.1 seconds
 COLLECT_DIST = 30  # the distance to collect the gems
 LVL_SCALING = 1.112  # the next lvl exp needed

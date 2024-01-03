@@ -7,7 +7,7 @@ from entity import Entity
 
 class Bullet(Entity):
     def __init__(self, x: int, y: int, m_x: int, m_y: int, split: bool = False, split_amount: int = 0,
-                 hp: int = 1, size: int = B_SIZE_0) -> None:
+                 hp: int = 1, size: int = B_SIZE_0, dmg: int = 1) -> None:
         if split and split_amount <= 0:
             sys.exit('Split amount is 0 or less when split is true')
 
@@ -30,6 +30,9 @@ class Bullet(Entity):
         self.hp = hp
 
         self.sTime = pygame.time.get_ticks()
+
+        # damage
+        self.damage = dmg
 
         # Visual things
         self.color = (0, 0, 0)  # black

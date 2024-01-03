@@ -7,12 +7,73 @@ from bullet import Bullet
 from gem import Gem
 from mStar import MorningStar
 from constants import S_WIDTH, S_HEIGHT, SPAWN_DISTANCE, E_DMG, E_VEL, COLLECT_DIST, SIZE_FACTOR, B_CD, B_SIZE_0, \
-    B_SIZE_1, B_SIZE_2, B_SIZE_3, B_SIZE_4, B_SIZE_5
+    B_SIZE_1, B_SIZE_2, B_SIZE_3, B_SIZE_4, B_SIZE_5, P_VEL, PLAYER_INIT_HP
 import pygame
 
 
+def add_bullet_direction(lvl: int) -> int:
+    assert 0 <= lvl <= 4, 'bullet direction must be between 0 and 4 ( + 1)'
+
+    return lvl + 1
+
+
+def add_bullet_pierce(lvl: int) -> int:
+    assert 0 <= lvl <= 4, 'bullet pierce must be between 0 and 4 ( + 1)'
+
+    return lvl + 1
+
+
+def add_bullet_split(lvl: int) -> int:
+    assert 0 <= lvl <= 4, 'bullet split must be between 0 and 4 ( + 1)'
+
+    return lvl + 1
+
+
+def add_collect_range(lvl: int) -> int:
+    return COLLECT_DIST + lvl * 15
+
+
+def add_dmg(lvl: int) -> int:
+    assert 0 <= lvl <= 5, 'dmg lvl range must be between 0 and 5'
+
+    return 2 ** lvl
+
+
+def add_exp_rate(player: Player, lvl: int) -> None:
+    assert 0 <= lvl <= 5, 'exp rate lvl range must be between 0 and 5'
+
+    player.exp_rate = 2 ** lvl
+
+
+def add_hp(player: Player, lvl: int) -> None:
+    assert 0 <= lvl <= 5, 'hp lvl range must be between 0 and 5'
+
+    player.max_hp = math.floor(PLAYER_INIT_HP * (1.2012 ** lvl))
+
+
+def add_hp_regen(player: Player, lvl: int) -> None:
+    assert 0 <= lvl <= 5, 'hp regen lvl range must be between 0 and 5'
+
+    player.hp_regen = 2 ** lvl
+
+
+def add_speed(player: Player, lvl: int) -> None:
+    assert 0 <= lvl <= 5, 'speed lvl range must be between 0 and 5'
+
+    player.velY = P_VEL + lvl
+    player.velX = P_VEL + lvl
+
+
+def reduce_bullet_cd(lvl: int) -> int:
+    assert 0 <= lvl <= 5, 'bullet cd lvl range must be between 0 and 5'
+
+    return B_CD - (180 * lvl)
+
+
+# ========================================================================
+
 def spawn_bullet(bullets: List[Bullet], m_x: int, m_y: int, b_sTime: int, c_time: int, b_cD: int, player: Player,
-                 bullet_num: int = 1, bullet_hp: int = 1, split_lvl: int = 0) -> int:
+                 bullet_num: int = 1, bullet_hp: int = 1, split_lvl: int = 0, dmg: int = 1) -> int:
     if c_time - b_sTime >= b_cD:
 
         angle_diff = 2 * math.pi / bullet_num
@@ -26,13 +87,13 @@ def spawn_bullet(bullets: List[Bullet], m_x: int, m_y: int, b_sTime: int, c_time
         elif split_lvl == 3:
             b_size = B_SIZE_3
         elif split_lvl == 4:
-            b_size = B_SIZE_2
+            b_size = B_SIZE_4
         elif split_lvl == 5:
             b_size = B_SIZE_5
 
         for i in range(bullet_num):
             curr_bullet = Bullet(player.posX + player.size / 2, player.posY + player.size / 2, m_x, m_y, hp=bullet_hp,
-                                 split=True if split_lvl > 0 else False, split_amount=split_lvl, size=b_size)
+                                 split=True if split_lvl > 0 else False, split_amount=split_lvl, size=b_size, dmg=dmg)
             curr_bullet.angle = curr_bullet.angle + i * angle_diff
 
             bullets.append(curr_bullet)
@@ -170,10 +231,11 @@ def split_bullet(bullets: List[Bullet], bullet: Bullet, curr_lvl: int):
     elif curr_lvl == 3:
         b_size = B_SIZE_3
     elif curr_lvl == 4:
-        b_size = B_SIZE_2
+        b_size = B_SIZE_4
 
     for k in range(1, curr_lvl + 2):
-        c_bullet = Bullet(bullet.posX, bullet.posY, -1, -1, True, split_amount=curr_lvl - 1, hp=bullet.hp, size=b_size)
+        c_bullet = Bullet(bullet.posX, bullet.posY, -1, -1, True, split_amount=curr_lvl - 1, hp=bullet.hp, size=b_size,
+                          dmg=bullet.damage)
         c_bullet.angle = bullet.angle + k * angle_diff
 
         bullets.append(c_bullet)
@@ -198,7 +260,7 @@ def bullet_enemy_collision(enemies: List, bullets: List, gems: List[Gem]) -> Tup
                 c_time = pygame.time.get_ticks()
                 if c_time - bullet.sTime >= B_CD:
                     bullet.sTime = pygame.time.get_ticks()
-                    enemy.hp -= 1
+                    enemy.hp -= bullet.damage
 
                     if bullet.split:
                         if bullet.split_amount == 1:
@@ -265,7 +327,7 @@ def enemy_player_collision(enemies: List[Enemy], player: Player) -> None:
 
 
 # gem plyer collision
-def gem_player_collision(gems: List, player: Player) -> List[Gem]:
+def gem_player_collision(gems: List, player: Player, collect_dist: int) -> List[Gem]:
     r_index = set()
 
     for i, gem in enumerate(gems):
@@ -277,7 +339,7 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
 
         if player.mask.overlap(gem.mask, (x_offset, y_offset)):
             r_index.add(i)
-            player.curr_exp += 1
+            player.curr_exp += player.exp_rate
 
         # distance management
         x_offset *= x_offset
@@ -285,11 +347,21 @@ def gem_player_collision(gems: List, player: Player) -> List[Gem]:
 
         dist = (x_offset + y_offset) ** 0.5
 
-        if dist <= COLLECT_DIST:
+        if dist <= collect_dist:
             gem.vel = player.velX * 2
 
     out_gems = [gems[i] for i in range(len(gems)) if i not in r_index]
     return out_gems
+
+
+# ==============================================================================
+
+def regen_hp(player: Player, c_time: int) -> None:
+    # seconds
+    if c_time - player.hp_sTime >= 100:
+        regen_amount = player.hp_regen / 10
+        player.hp += regen_amount if player.hp + regen_amount <= player.max_hp else player.max_hp - player.hp
+        player.hp_sTime = pygame.time.get_ticks()
 
 
 # ==============================================================================

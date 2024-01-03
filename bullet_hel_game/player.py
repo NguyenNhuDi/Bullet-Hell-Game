@@ -1,6 +1,6 @@
 import pygame.draw
 from entity import Entity
-from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR, PLAYER_INIT_EXP
+from constants import P_VEL, P_SIZE, PLAYER_INIT_HP, PLAYER_IFRAME, BACKGROUND_COLOR, PLAYER_INIT_EXP, PLAYER_INIT_HP_REGEN
 
 
 class Player(Entity):
@@ -24,6 +24,9 @@ class Player(Entity):
         # HP things
         self.max_hp = PLAYER_INIT_HP
         self.hp = PLAYER_INIT_HP
+        self.hp_sTime = pygame.time.get_ticks()
+
+        self.hp_regen = PLAYER_INIT_HP_REGEN
 
         self.iframe = PLAYER_IFRAME
         self.sTime = pygame.time.get_ticks()
@@ -32,6 +35,7 @@ class Player(Entity):
         self.exp_needed = PLAYER_INIT_EXP
         self.curr_exp = 0
         self.lvl = 1
+        self.exp_rate = 1
 
         self.font = pygame.font.Font('Black Hulk.otf', 20)
 
@@ -48,7 +52,7 @@ class Player(Entity):
         p_hp = self.hp / self.max_hp
 
         pygame.draw.rect(screen, green, (5, 5, hb_len * p_hp, hb_height))
-        msg = self.font.render(f'{self.hp}', True, (0, 0, 0), BACKGROUND_COLOR)
+        msg = self.font.render(f'{self.hp:.0f}', True, (0, 0, 0), BACKGROUND_COLOR)
         msg_rect = msg.get_rect()
         msg_rect.center = (275, 10)
         screen.blit(msg, msg_rect)
