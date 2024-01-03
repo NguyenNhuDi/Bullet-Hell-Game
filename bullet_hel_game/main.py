@@ -79,6 +79,7 @@ if __name__ == '__main__':
                 buttons.append(test_box_2)
                 buttons.append(test_box_3)
                 left_button_pressed = False
+                right_button_pressed = True
                 while True:
                     keys_pressed = pygame.key.get_pressed()
 
@@ -100,8 +101,20 @@ if __name__ == '__main__':
                             else:
                                 pos -= 1
 
+                        elif keys_pressed[pygame.K_RIGHT] and not right_button_pressed:
+                            right_button_pressed = True
+                            buttons[pos].color = (168, 227, 197)
+
+                            if pos == 2:
+                                pos = 0
+                            else:
+                                pos += 1
+
                         if not keys_pressed[pygame.K_LEFT]:
                             left_button_pressed = False
+                        if not keys_pressed[pygame.K_RIGHT]:
+                            right_button_pressed = False
+
                     pygame.event.pump()
 
                 player.curr_exp = player.curr_exp - player.exp_needed
